@@ -11,7 +11,7 @@ class Router extends Base {
     private $requested_path
     
     function __construct(RouteCollection $routes = NULL) {
-        $this->routes = (is_null($routes)) ? new RouteCollection : $routes;
+        $this->routes = (is_null($routes)) ? new RouteCollection() : $routes;
         $this->requested_path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : '/';
         
         $this->readableProperties('routes');

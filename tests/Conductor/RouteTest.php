@@ -5,14 +5,19 @@ use Conductor\Route;
 class RouteTest extends PHPUnit_Framework_TestCase {
     public function testRoute()
     {
-        $route = new Route('GET', '/hello', function() {});
+        $r1 = new Route('GET', '/hello', function() {});
         
-        $this->assertEquals('GET', $route->getMethod());
-        $this->assertEquals('/hello', $route->getPath());
+        $this->assertEquals('GET', $r1->getMethod());
+        $this->assertEquals('/hello', $r1->getPath());
         
-        $route->setName('hello');
+        $r1->setName('hello');
         
-        $this->assertEquals('hello', $route->getName());
+        $this->assertEquals('hello', $r1->getName());
+
+        $r2 = new Route('GET', '/hello/:name', function($name) {});
+
+        $this->assertEquals('/hello/:name', $r2->getPath());
+        $this->assertEquals('/hello/cristian', $r2->getPath(array('cristian')));
     }
 
     public function testRouteMatching()
@@ -21,5 +26,10 @@ class RouteTest extends PHPUnit_Framework_TestCase {
 
         $this->assertTrue($r1->matchRoute('/hello'));
         $this->assertFalse($r1->matchRoute('/world'));
+        
+        $r2 = new Route('GET', '/hello/:name', function($name) {});
+
+        $this->assertTrue($r2->matchRoute('/hello/cristian'));
+        $this->assertFalse($r2->matchRoute('/gello/cristian'));
     }
 }

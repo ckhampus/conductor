@@ -14,7 +14,7 @@ class Route extends Base {
     private $path;
     private $callback;
     private $name;
-
+    
     public function __construct($method, $path, $callback) {
         $this->method = $method;
         $this->path = $path;

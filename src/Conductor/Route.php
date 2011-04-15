@@ -31,10 +31,14 @@ class Route extends Base {
      */
     private function hasParameters()
     {
-        $count = count($this->getParameterNames());
-        return ($count > 0) ? $count : FALSE;
+        return count($this->getParameterNames());
     }
 
+    /**
+     * Get the names of the parameters specified in the path.
+     *
+     * @return array
+     */
     private function getParameterNames()
     {
         $matches = array();
@@ -55,6 +59,12 @@ class Route extends Base {
         return (bool)preg_match('/^'.$this->getPathWithData().'$/', $path);
     }
 
+    /**
+     * Get the path with or without parameter data. 
+     * 
+     * @param array $data
+     * @return string
+     */
     public function getPath(Array $data = array())
     {
         if (empty($data)) {
@@ -63,13 +73,32 @@ class Route extends Base {
             return $this->getPathWithData($data);
         }
     }
-
+    
+    /**
+     * Get the path with parameter data. 
+     * 
+     * @param array $data
+     * @return string
+     */
     private function getPathWithData(Array $data = array())
     {
         if (empty($data)) {
+            // If data array is empty replace
+            // parameters in path with regular expression
             $path = str_replace('/', '\/', $this->path);
             $data = array_fill_keys($this->getParameterNames(), '[\w]+');
         } else {
+            // If data array is not empty replace
+            // parameters with data from array.
+            
+            // Check if the expected number of
+            // parameters in the data array is right.
+            if ($this->hasParameters() === count($data)) {
+                throw new \Exception(sprintf('Expecting %s parameter%s.',
+                    $this->hasParameters(),
+                    ($this->hasParameters() === 1) ? '' : 's'));
+            }
+            
             $path = $this->path;
             $data = array_combine($this->getParameterNames(), $data);
         }

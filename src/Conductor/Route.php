@@ -20,7 +20,7 @@ class Route extends Base {
         $this->path = $path;
         $this->callback = $callback;
 
-        $this->readableProperties('method', 'path', 'name');
+        $this->readableProperties('method', 'path', 'name', 'callback');
         $this->writableProperties('name');
     }
 

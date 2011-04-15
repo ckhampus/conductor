@@ -15,9 +15,19 @@ class RouteCollection extends Base implements Iterator, Countable {
     private $count = 0;
     private $routes = array();
     
-    public function add(Route $route) {
-        $this->routes = $route;
+    public function add(Route $route, $name = NULL) {
+        if (is_null($name)) {            
+            $this->routes[] = $route;
+        } else {
+            $route->setName($name);
+            $this->routes[$route->getName()] = $route;
+        }
+        
         $this->count = count($this->routes);
+    }
+    
+    public function getRouteByName($name) {
+        return (isset($this->routes[$name])) ? $this->routes[$name] : NULL;
     }
     
     /**

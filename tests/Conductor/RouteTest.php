@@ -47,5 +47,6 @@ class RouteTest extends PHPUnit_Framework_TestCase {
         // Match the route against a valid and invalid path
         $this->assertTrue($r1->matchRoute('/hello/cristian'));
         $this->assertFalse($r1->matchRoute('/gello/cristian'));
+        $this->assertFalse($r1->matchRoute('/hello'));
     }
 }

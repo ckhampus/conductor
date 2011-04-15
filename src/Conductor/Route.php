@@ -93,7 +93,7 @@ class Route extends Base {
             
             // Check if the expected number of
             // parameters in the data array is right.
-            if ($this->hasParameters() === count($data)) {
+            if ($this->hasParameters() < count($data)) {
                 throw new \Exception(sprintf('Expecting %s parameter%s.',
                     $this->hasParameters(),
                     ($this->hasParameters() === 1) ? '' : 's'));

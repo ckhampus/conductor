@@ -2,7 +2,6 @@
 
 namespace Conductor;
 
-use Conductor\Base;
 use Conductor\Route;
 use Conductor\RouteCollection;
 
@@ -11,7 +10,7 @@ use Conductor\RouteCollection;
  * 
  * @author Cristian Hampus 
  */
-class Router extends Base {
+class Router {
     private $routes;
     private $requested_path;
     
@@ -24,8 +23,6 @@ class Router extends Base {
      */
     function __construct(RouteCollection $routes = NULL) {
         $this->routes = (is_null($routes)) ? new RouteCollection() : $routes;
-        
-        $this->readableProperties('routes');
     }
     
     /**
@@ -36,6 +33,16 @@ class Router extends Base {
      */
     public function add(Route $route) {
         $this->routes->add($route);   
+    }
+
+    /**
+     * Get the RouteCollection with all the routes. 
+     * 
+     * @return Route
+     */
+    public function getRoutes()
+    {
+        return $this->routes;
     }
     
     /**

@@ -2,14 +2,12 @@
 
 namespace Conductor;
 
-use Conductor\Base;
-
 /**
  * Contains information about a route.
  * 
  * @author Cristian Hampus 
  */
-class Route extends Base {
+class Route {
     private $method;
     private $path;
     private $callback;
@@ -28,9 +26,6 @@ class Route extends Base {
         $this->method = strtoupper($method);
         $this->path = $path;
         $this->callback = $callback;
-
-        $this->readableProperties('method', 'path', 'name', 'callback');
-        $this->writableProperties('name');
     }
 
     /**
@@ -69,6 +64,16 @@ class Route extends Base {
     }
 
     /**
+     * Get the method 
+     * 
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    /**
      * Get the path with or without parameter data. 
      * 
      * @param array $data
@@ -82,7 +87,12 @@ class Route extends Base {
             return $this->getPathWithData($data);
         }
     }
-    
+
+    public function getCallback()
+    {
+        return $this->callback;
+    }
+
     /**
      * Get the path with parameter data. 
      * 

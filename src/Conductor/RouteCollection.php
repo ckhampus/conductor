@@ -2,15 +2,12 @@
 
 namespace Conductor;
 
-use Conductor\Base;
-use Conductor\Route;
-
 /**
  * Collection object for routes.
  * 
  * @author Cristian Hampus
  */
-class RouteCollection extends Base implements \Iterator, \Countable {
+class RouteCollection implements \Iterator, \Countable {
     private $position = 0;
     private $count = 0;
     private $routes = array();
@@ -24,14 +21,9 @@ class RouteCollection extends Base implements \Iterator, \Countable {
      */
     public function add(Route $route, $name = NULL) {
         if (is_null($name)) {
-            if (!is_null($route->getName())) {
-                $this->routes[$route->getName()] = $route;
-            } else {
-                $this->routes[] = $route;
-            }
+            $this->routes[] = $route;
         } else {
-            $route->setName($name);
-            $this->routes[$route->getName()] = $route;
+            $this->routes[$name] = $route;
         }
         
         $this->count = count($this->routes);
@@ -56,22 +48,47 @@ class RouteCollection extends Base implements \Iterator, \Countable {
         return $this->count;   
     }
     
+    /**
+     * Return the current element. 
+     * 
+     * @return Route
+     */
     public function current() {
         return $this->routes[$this->position];
     }
     
+    /**
+     * Return the key of the current element.
+     * 
+     * @return mixed
+     */
     public function key() {
         return $this->position;
     }
     
+    /**
+     * Move forward to the next element.
+     * 
+     * @return void
+     */
     public function next() {
         ++$this->position;   
     }
     
+    /**
+     * Rewind the Iterator to the first element. 
+     * 
+     * @return void
+     */
     public function rewind() {
         $this->position = 0;   
     }
     
+    /**
+     * Checs of current position is valid. 
+     * 
+     * @return bool
+     */
     public function valid() {
         return isset($this->routes[$this->position]);   
     }

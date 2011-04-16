@@ -11,15 +11,6 @@ class RouteTest extends PHPUnit_Framework_TestCase {
         // Get the route method and path
         $this->assertEquals('GET', $r1->getMethod());
         $this->assertEquals('/hello', $r1->getPath());
-        
-        // Get the route name before assignment
-        $this->assertEquals(NULL, $r1->getName());
-        
-        // Give the route a name
-        $r1->setName('hello');
-        
-        // Get the route name after assignment
-        $this->assertEquals('hello', $r1->getName());
     }
     
     public function testRouteWithData() {

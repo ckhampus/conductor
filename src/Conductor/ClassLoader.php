@@ -7,11 +7,15 @@ namespace Conductor;
  * 
  * @author Cristian Hampus
  **/
-class ClassLoader {
+class ClassLoader 
+{
     /**
      * Register the class loader.
+     *
+     * @return void
      */
-    public static function register() {
+    public static function register() 
+    {
         spl_autoload_register(array(__CLASS__, 'autoload'));
     }
 
@@ -19,6 +23,7 @@ class ClassLoader {
      * Load classes if they don't exist yet.
      *
      * @param string $class
+     * @return bool
      */
     private static function autoload($class)
     {
@@ -32,6 +37,9 @@ class ClassLoader {
         // Include file if it exists
         if (file_exists($file)) {
             include($file);
+            return true;
         }
+
+        return false;
     }
 }

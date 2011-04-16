@@ -15,8 +15,17 @@ class Route extends Base {
     private $callback;
     private $name;
     
-    public function __construct($method, $path, $callback) {
-        $this->method = $method;
+    /**
+     * Create a new route object.
+     * 
+     * @param string $method 
+     * @param string $path 
+     * @param callback $callback 
+     * @return void
+     */
+    public function __construct($method, $path, $callback) 
+    {
+        $this->method = strtoupper($method);
         $this->path = $path;
         $this->callback = $callback;
 
@@ -27,7 +36,7 @@ class Route extends Base {
     /**
      * Returns the number of parameters the path accepts. 
      * 
-     * @return mixed
+     * @return int
      */
     private function hasParameters()
     {

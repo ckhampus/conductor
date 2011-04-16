@@ -7,7 +7,8 @@ namespace Conductor;
  * 
  * @author Cristian Hampus
  */
-abstract class Base {
+abstract class Base 
+{
     private $readable = array();
     private $writable = array();
 
@@ -16,7 +17,8 @@ abstract class Base {
      * 
      * @return void
      */
-    protected function readableProperties() {
+    protected function readableProperties() 
+    {
         if (func_num_args() > 0) {
             $this->readable = array_merge($this->readable, func_get_args());
         }
@@ -27,13 +29,22 @@ abstract class Base {
      * 
      * @return void
      */
-    protected function writableProperties() {
+    protected function writableProperties() 
+    {
         if (func_num_args() > 0) {
             $this->writable = array_merge($this->writable, func_get_args());
         }
     }
 
-    public function __call($name, $arguments) {
+    /**
+     * Handles the getter and setters for properties. 
+     * 
+     * @param string $name 
+     * @param array $arguments 
+     * @return mixed
+     */
+    public function __call($name, $arguments) 
+    {
         $property = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', substr($name, 3)));
 
         if (property_exists(__CLASS__, $property)) {

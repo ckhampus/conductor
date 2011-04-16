@@ -122,8 +122,8 @@ class Route
             
             // Check if the expected number of
             // parameters in the data array is right.
-            if ($this->hasParameters() < count($data)) {
-                throw new \Exception(
+            if ($this->hasParameters() > count($data)) {
+                throw new \InvalidArgumentException(
                     sprintf(
                         'Expecting %s parameter%s.',    // Error message
                         $this->hasParameters(),         // Number of parameters

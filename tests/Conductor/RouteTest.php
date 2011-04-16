@@ -22,6 +22,17 @@ class RouteTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('/hello/cristian', $r1->getPath(array('cristian')));
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testRouteWithInvalidData()
+    {
+        // Create new route object.       
+        $r1 = new Route('GET', '/hello/:name/:lastname', function($name, $lastname) {});
+
+        $r1->getPath(array('cristian'));
+    }
+
     public function testRouteMatching() {
         // Create a new route
         $r1 = new Route('GET', '/hello', function() {});

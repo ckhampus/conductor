@@ -5,9 +5,11 @@ namespace Conductor;
 /**
  * Collection object for routes.
  * 
- * @author Cristian Hampus
+ * @package Conductor
+ * @author Cristian Hampus <contact@cristianhampus.se>
  */
-class RouteCollection implements \Iterator, \Countable {
+class RouteCollection implements \Iterator, \Countable 
+{
     private $position = 0;
     private $count = 0;
     private $routes = array();
@@ -15,11 +17,12 @@ class RouteCollection implements \Iterator, \Countable {
     /**
      * Add route object to the collection.
      * 
-     * @param Route $route 
+     * @param Route  $route 
      * @param string $name 
      * @return void
      */
-    public function add(Route $route, $name = NULL) {
+    public function add(Route $route, $name = NULL) 
+    {
         if (is_null($name)) {
             $this->routes[] = $route;
         } else {
@@ -35,7 +38,8 @@ class RouteCollection implements \Iterator, \Countable {
      * @param string $name 
      * @return Route
      */
-    public function getRouteByName($name) {
+    public function getRouteByName($name) 
+    {
         return (isset($this->routes[$name])) ? $this->routes[$name] : NULL;
     }
     
@@ -44,7 +48,8 @@ class RouteCollection implements \Iterator, \Countable {
      *
      * @return int
      */
-    public function count() {
+    public function count() 
+    {
         return $this->count;   
     }
     
@@ -53,7 +58,8 @@ class RouteCollection implements \Iterator, \Countable {
      * 
      * @return Route
      */
-    public function current() {
+    public function current() 
+    {
         return $this->routes[$this->position];
     }
     
@@ -62,7 +68,8 @@ class RouteCollection implements \Iterator, \Countable {
      * 
      * @return mixed
      */
-    public function key() {
+    public function key() 
+    {
         return $this->position;
     }
     
@@ -71,7 +78,8 @@ class RouteCollection implements \Iterator, \Countable {
      * 
      * @return void
      */
-    public function next() {
+    public function next() 
+    {
         ++$this->position;   
     }
     
@@ -80,7 +88,8 @@ class RouteCollection implements \Iterator, \Countable {
      * 
      * @return void
      */
-    public function rewind() {
+    public function rewind() 
+    {
         $this->position = 0;   
     }
     
@@ -89,7 +98,8 @@ class RouteCollection implements \Iterator, \Countable {
      * 
      * @return bool
      */
-    public function valid() {
+    public function valid() 
+    {
         return isset($this->routes[$this->position]);   
     }
 }

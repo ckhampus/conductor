@@ -5,7 +5,8 @@ namespace Conductor;
 /**
  * Contains information about a route.
  * 
- * @author Cristian Hampus 
+ * @package Conductor
+ * @author Cristian Hampus <contact@cristianhampus.se>
  */
 class Route {
     private $method;
@@ -16,9 +17,9 @@ class Route {
     /**
      * Create a new route object.
      * 
-     * @param string $method 
-     * @param string $path 
-     * @param callback $callback 
+     * @param string   $method      The HTTP request method.
+     * @param string   $path        The path to match the request against.
+     * @param callback $callback    The callback to invoke on request.
      * @return void
      */
     public function __construct($method, $path, $callback) 
@@ -53,7 +54,7 @@ class Route {
     }
 
     /**
-     * Mathes the route against the specified path. 
+     * Matches the route against the specified path. 
      * 
      * @param string $path 
      * @return bool
@@ -88,6 +89,11 @@ class Route {
         }
     }
 
+    /**
+     * Get the callback. 
+     * 
+     * @return callback
+     */
     public function getCallback()
     {
         return $this->callback;

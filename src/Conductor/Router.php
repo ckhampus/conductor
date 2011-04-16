@@ -7,8 +7,9 @@ use Conductor\RouteCollection;
 
 /**
  * Handles request and dispatches them to the right routes. 
- * 
- * @author Cristian Hampus 
+ *
+ * @package Conductor
+ * @author Cristian Hampus <contact@cristianhampus.se>
  */
 class Router {
     private $routes;

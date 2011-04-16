@@ -6,14 +6,13 @@ namespace Conductor;
  * Contains information about a route.
  * 
  * @package Conductor
- * @author Cristian Hampus <contact@cristianhampus.se>
+ * @author  Cristian Hampus <contact@cristianhampus.se>
  */
-class Route 
+class Route
 {
     private $method;
     private $path;
     private $callback;
-    private $name;
     
     /**
      * Create a new route object.
@@ -107,6 +106,7 @@ class Route
      * Get the path with parameter data. 
      * 
      * @param array $data Array containing data to insert into the path.
+     *
      * @return string
      */
     private function getPathWithData(Array $data = array())
@@ -125,9 +125,9 @@ class Route
             if ($this->hasParameters() < count($data)) {
                 throw new \Exception(
                     sprintf(
-                        'Expecting %s parameter%s.',
-                        $this->hasParameters(),
-                        (($this->hasParameters() === 1) ? '' : 's')
+                        'Expecting %s parameter%s.',    // Error message
+                        $this->hasParameters(),         // Number of parameters
+                        (($this->hasParameters() === 1) ? '' : 's') // Plural?
                     )
                 );
             }

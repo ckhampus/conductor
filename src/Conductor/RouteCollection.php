@@ -6,7 +6,7 @@ namespace Conductor;
  * Collection object for routes.
  * 
  * @package Conductor
- * @author Cristian Hampus <contact@cristianhampus.se>
+ * @author  Cristian Hampus <contact@cristianhampus.se>
  */
 class RouteCollection implements \Iterator, \Countable
 {

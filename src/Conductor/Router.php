@@ -9,9 +9,9 @@ use Conductor\RouteCollection;
  * Handles request and dispatches them to the right routes. 
  *
  * @package Conductor
- * @author Cristian Hampus <contact@cristianhampus.se>
+ * @author  Cristian Hampus <contact@cristianhampus.se>
  */
-class Router 
+class Router
 {
     private $routes;
     private $requested_path;
@@ -32,10 +32,12 @@ class Router
     /**
      * Add a route object to the router. 
      * 
-     * @param Route $route 
+     * @param Route  $route The route object to add.
+     * @param string $name  The to associate the route with.
+     *
      * @return void
      */
-    public function add(Route $route) 
+    public function add(Route $route, $name = null) 
     {
         $this->routes->add($route);   
     }

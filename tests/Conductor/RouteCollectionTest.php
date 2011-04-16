@@ -47,4 +47,28 @@ class RouteCollectionTest extends PHPUnit_Framework_TestCase {
 
         $this->assertFalse($rc->valid());
     }
+
+    public function testRouteCollectionArrayAccess()
+    {
+        $rc = new RouteCollection();
+
+        $r1 = new Route('GET', '/hello/:name', function($name) {});
+        $r2 = new Route('GET', '/world', function() {});
+        
+        $rc[] = $r1;
+        $rc['world_route'] = $r2;
+
+        $this->assertEquals(2, count($rc));     
+
+        $this->assertEquals($r1, $rc['hello_name']);
+        $this->assertEquals($r2, $rc['world_route']);
+
+        $this->assertTrue(isset($rc['hello_name']));
+        $this->assertFalse(isset($rc['foobar']));
+
+        unset($rc['hello_name']);
+
+        $this->assertEquals(1, count($rc));
+        $this->assertFalse(isset($rc['hello_name']));
+    }
 }

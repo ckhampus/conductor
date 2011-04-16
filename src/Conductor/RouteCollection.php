@@ -11,7 +11,6 @@ namespace Conductor;
 class RouteCollection implements \Iterator, \Countable, \ArrayAccess
 {
     private $end = false;
-    private $count = 0;
     private $routes = array();
     
     /**
@@ -31,10 +30,6 @@ class RouteCollection implements \Iterator, \Countable, \ArrayAccess
         }
       
         $this->routes[$name] = $route;
-             
-        $this->count = count($this->routes);
-
-        $this->rewind();
     }
     
     /**
@@ -56,7 +51,7 @@ class RouteCollection implements \Iterator, \Countable, \ArrayAccess
      */
     public function count() 
     {
-        return $this->count;   
+        return count($this->routes);  
     }
     
     /**
@@ -108,7 +103,7 @@ class RouteCollection implements \Iterator, \Countable, \ArrayAccess
     }
     
     /**
-     * Checs of current position is valid. 
+     * Checks if the current position is valid. 
      * 
      * @return bool
      */

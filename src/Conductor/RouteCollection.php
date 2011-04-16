@@ -8,9 +8,9 @@ namespace Conductor;
  * @package Conductor
  * @author  Cristian Hampus <contact@cristianhampus.se>
  */
-class RouteCollection implements \Iterator, \Countable
+class RouteCollection implements \Iterator, \Countable, \ArrayAccess
 {
-    private $position = 0;
+    private $end = false;
     private $count = 0;
     private $routes = array();
     
@@ -25,12 +25,16 @@ class RouteCollection implements \Iterator, \Countable
     public function add(Route $route, $name = null) 
     {
         if (is_null($name)) {
-            $this->routes[] = $route;
-        } else {
-            $this->routes[$name] = $route;
+            $name = trim($route->getPath(), '/');
+            $name = str_replace('/', '_', $name);
+            $name = str_replace(':', '', $name);
         }
-        
+      
+        $this->routes[$name] = $route;
+             
         $this->count = count($this->routes);
+
+        $this->rewind();
     }
     
     /**
@@ -42,7 +46,7 @@ class RouteCollection implements \Iterator, \Countable
      */
     public function getRouteByName($name) 
     {
-        return (isset($this->routes[$name])) ? $this->routes[$name] : null;
+        return isset($this->routes[$name]) ? $this->routes[$name] : null;
     }
     
     /**
@@ -62,7 +66,7 @@ class RouteCollection implements \Iterator, \Countable
      */
     public function current() 
     {
-        return $this->routes[$this->position];
+        return current($this->routes);
     }
     
     /**
@@ -72,7 +76,7 @@ class RouteCollection implements \Iterator, \Countable
      */
     public function key() 
     {
-        return $this->position;
+        return key($this->routes);
     }
     
     /**
@@ -82,7 +86,14 @@ class RouteCollection implements \Iterator, \Countable
      */
     public function next() 
     {
-        ++$this->position;   
+        $next = next($this->routes);
+
+        if ($next === false) {
+            $this->end = true;
+            return false;
+        }
+
+        return $next;
     }
     
     /**
@@ -92,7 +103,8 @@ class RouteCollection implements \Iterator, \Countable
      */
     public function rewind() 
     {
-        $this->position = 0;   
+        $this->end = false;
+        reset($this->routes);   
     }
     
     /**
@@ -102,6 +114,59 @@ class RouteCollection implements \Iterator, \Countable
      */
     public function valid() 
     {
-        return isset($this->routes[$this->position]);   
+        return !$this->end;
+    }
+
+    /**
+     * Assigns a route to the specified name.
+     * 
+     * @param mixed $name  The name to assign the route to.
+     * @param mixed $route The route to set.
+     *
+     * @return void
+     */
+    public function offsetSet($name, $route)
+    {
+        if (is_null($name)) {
+            $this->add($route);
+        } else {
+            $this->add($route, $name);
+        }
+    }
+
+    /**
+     * Returns the route with the specified name. 
+     * 
+     * @param mixed $name The name of the route to retrieve.
+     *
+     * @return void
+     */
+    public function offsetGet($name)
+    {
+        return isset($this->routes[$name]) ? $this->routes[$name] : null;
+    }
+
+    /**
+     * Checks whether or not an route with the specified name exists. 
+     * 
+     * @param mixed $name The name to check for.
+     *
+     * @return void
+     */
+    public function offsetExists($name)
+    {
+        return isset($this->routes[$name]);
+    }
+
+    /**
+     * Unsets the route with the specified name. 
+     * 
+     * @param mixed $name The name of the route to unset.
+     *
+     * @return void
+     */
+    public function offsetUnset($name)
+    {
+        unset($this->routes[$name]);
     }
 }

@@ -39,7 +39,7 @@ class Router
      */
     public function add(Route $route, $name = null) 
     {
-        $this->routes->add($route);   
+        $this->routes->add($route, $name);   
     }
 
     /**

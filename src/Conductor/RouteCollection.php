@@ -8,7 +8,7 @@ namespace Conductor;
  * @package Conductor
  * @author Cristian Hampus <contact@cristianhampus.se>
  */
-class RouteCollection implements \Iterator, \Countable 
+class RouteCollection implements \Iterator, \Countable
 {
     private $position = 0;
     private $count = 0;
@@ -17,11 +17,12 @@ class RouteCollection implements \Iterator, \Countable
     /**
      * Add route object to the collection.
      * 
-     * @param Route  $route 
-     * @param string $name 
+     * @param Route  $route The route object to add.
+     * @param string $name  Name to assign the route with.
+     *
      * @return void
      */
-    public function add(Route $route, $name = NULL) 
+    public function add(Route $route, $name = null) 
     {
         if (is_null($name)) {
             $this->routes[] = $route;
@@ -35,12 +36,13 @@ class RouteCollection implements \Iterator, \Countable
     /**
      * Get route object by name. 
      * 
-     * @param string $name 
+     * @param string $name The name of the route.
+     *
      * @return Route
      */
     public function getRouteByName($name) 
     {
-        return (isset($this->routes[$name])) ? $this->routes[$name] : NULL;
+        return (isset($this->routes[$name])) ? $this->routes[$name] : null;
     }
     
     /**

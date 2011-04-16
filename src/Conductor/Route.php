@@ -8,7 +8,8 @@ namespace Conductor;
  * @package Conductor
  * @author Cristian Hampus <contact@cristianhampus.se>
  */
-class Route {
+class Route 
+{
     private $method;
     private $path;
     private $callback;
@@ -17,9 +18,10 @@ class Route {
     /**
      * Create a new route object.
      * 
-     * @param string   $method      The HTTP request method.
-     * @param string   $path        The path to match the request against.
-     * @param callback $callback    The callback to invoke on request.
+     * @param string   $method   The HTTP request method.
+     * @param string   $path     The path to match the request against.
+     * @param callback $callback The callback to invoke on request.
+     *
      * @return void
      */
     public function __construct($method, $path, $callback) 
@@ -56,7 +58,8 @@ class Route {
     /**
      * Matches the route against the specified path. 
      * 
-     * @param string $path 
+     * @param string $path The path to match the route against.
+     *
      * @return bool
      */
     public function matchRoute($path)
@@ -77,7 +80,8 @@ class Route {
     /**
      * Get the path with or without parameter data. 
      * 
-     * @param array $data
+     * @param array $data Array containing data to insert into the path.
+     *
      * @return string
      */
     public function getPath(Array $data = array())
@@ -102,7 +106,7 @@ class Route {
     /**
      * Get the path with parameter data. 
      * 
-     * @param array $data
+     * @param array $data Array containing data to insert into the path.
      * @return string
      */
     private function getPathWithData(Array $data = array())
@@ -119,9 +123,13 @@ class Route {
             // Check if the expected number of
             // parameters in the data array is right.
             if ($this->hasParameters() < count($data)) {
-                throw new \Exception(sprintf('Expecting %s parameter%s.',
-                    $this->hasParameters(),
-                    ($this->hasParameters() === 1) ? '' : 's'));
+                throw new \Exception(
+                    sprintf(
+                        'Expecting %s parameter%s.',
+                        $this->hasParameters(),
+                        (($this->hasParameters() === 1) ? '' : 's')
+                    )
+                );
             }
             
             $path = $this->path;

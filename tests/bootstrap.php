@@ -6,7 +6,7 @@ spl_autoload_register(function($class) {
         return true;
     }
     
-    $file = sprintf('%s/%s.php', realpath(__DIR__.'/..'), str_replace('\\', '/', $class));
+    $file = realpath(__DIR__.'/../src').'/'.str_replace('\\', '/', $class).'.php';
     
     // Include file if it exists
     if (file_exists($file)) {

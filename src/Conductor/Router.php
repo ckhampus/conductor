@@ -60,7 +60,7 @@ class Router
      */
     public function add(Route $route, $name = null) 
     {
-        $this->routes->add($route, $name);   
+        $this->_routes->add($route, $name);   
     }
 
     /**

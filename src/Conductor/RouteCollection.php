@@ -1,5 +1,26 @@
 <?php
-
+/**
+ * Copyright (c) 2011 Cristian Hampus
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+ 
 namespace Conductor;
 
 /**
@@ -10,8 +31,8 @@ namespace Conductor;
  */
 class RouteCollection implements \Iterator, \Countable, \ArrayAccess
 {
-    private $end = false;
-    private $routes = array();
+    private $_end = false;
+    private $_routes = array();
     
     /**
      * Add route object to the collection.
@@ -29,7 +50,7 @@ class RouteCollection implements \Iterator, \Countable, \ArrayAccess
             $name = str_replace(':', '', $name);
         }
       
-        $this->routes[$name] = $route;
+        $this->_routes[$name] = $route;
     }
     
     /**
@@ -41,7 +62,7 @@ class RouteCollection implements \Iterator, \Countable, \ArrayAccess
      */
     public function getRouteByName($name) 
     {
-        return isset($this->routes[$name]) ? $this->routes[$name] : null;
+        return isset($this->_routes[$name]) ? $this->_routes[$name] : null;
     }
     
     /**
@@ -51,7 +72,7 @@ class RouteCollection implements \Iterator, \Countable, \ArrayAccess
      */
     public function count() 
     {
-        return count($this->routes);  
+        return count($this->_routes);  
     }
     
     /**
@@ -61,7 +82,7 @@ class RouteCollection implements \Iterator, \Countable, \ArrayAccess
      */
     public function current() 
     {
-        return current($this->routes);
+        return current($this->_routes);
     }
     
     /**
@@ -71,7 +92,7 @@ class RouteCollection implements \Iterator, \Countable, \ArrayAccess
      */
     public function key() 
     {
-        return key($this->routes);
+        return key($this->_routes);
     }
     
     /**
@@ -81,10 +102,10 @@ class RouteCollection implements \Iterator, \Countable, \ArrayAccess
      */
     public function next() 
     {
-        $next = next($this->routes);
+        $next = next($this->_routes);
 
         if ($next === false) {
-            $this->end = true;
+            $this->_end = true;
             return false;
         }
 
@@ -98,8 +119,8 @@ class RouteCollection implements \Iterator, \Countable, \ArrayAccess
      */
     public function rewind() 
     {
-        $this->end = false;
-        reset($this->routes);   
+        $this->_end = false;
+        reset($this->_routes);   
     }
     
     /**
@@ -109,7 +130,7 @@ class RouteCollection implements \Iterator, \Countable, \ArrayAccess
      */
     public function valid() 
     {
-        return !$this->end;
+        return !$this->_end;
     }
 
     /**
@@ -138,7 +159,7 @@ class RouteCollection implements \Iterator, \Countable, \ArrayAccess
      */
     public function offsetGet($name)
     {
-        return isset($this->routes[$name]) ? $this->routes[$name] : null;
+        return isset($this->_routes[$name]) ? $this->_routes[$name] : null;
     }
 
     /**
@@ -150,7 +171,7 @@ class RouteCollection implements \Iterator, \Countable, \ArrayAccess
      */
     public function offsetExists($name)
     {
-        return isset($this->routes[$name]);
+        return isset($this->_routes[$name]);
     }
 
     /**
@@ -162,6 +183,6 @@ class RouteCollection implements \Iterator, \Countable, \ArrayAccess
      */
     public function offsetUnset($name)
     {
-        unset($this->routes[$name]);
+        unset($this->_routes[$name]);
     }
 }

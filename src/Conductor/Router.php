@@ -1,5 +1,26 @@
 <?php
-
+/**
+ * Copyright (c) 2011 Cristian Hampus
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+ 
 namespace Conductor;
 
 use Conductor\Route;
@@ -13,8 +34,8 @@ use Conductor\RouteCollection;
  */
 class Router
 {
-    private $routes;
-    private $requested_path;
+    private $_routes;
+    private $_requested_path;
     
     /**
      * Create a new router for handling requests. 
@@ -26,7 +47,7 @@ class Router
      */
     function __construct(RouteCollection $routes = null) 
     {
-        $this->routes = (is_null($routes)) ? new RouteCollection() : $routes;
+        $this->_routes = (is_null($routes)) ? new RouteCollection() : $routes;
     }
     
     /**
@@ -49,7 +70,7 @@ class Router
      */
     public function getRoutes()
     {
-        return $this->routes;
+        return $this->_routes;
     }
     
     /**
@@ -59,11 +80,11 @@ class Router
      */
     public function dispatch() 
     {
-        $this->requested_path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : '/';
+        $this->_requested_path = (isset($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : '/';
 
-        foreach ($this->routes as $route) {
+        foreach ($this->_routes as $route) {
             if ($route->getMethod() === $_SERVER['REQUEST_METHOD']) {
-                if ($route->matchRoute($this->requested_path)) {
+                if ($route->matchRoute($this->_requested_path)) {
                     call_user_func_array(
                         $route->getCallback(),
                         $this->getParameters($route->getPath())
@@ -84,8 +105,8 @@ class Router
      *
      * @return array
      */
-    private function getParameters($path)
+    private function _getParameters($path)
     {
-        return array_diff(explode('/', $this->requested_path), explode('/', $path));
+        return array_diff(explode('/', $this->_requested_path), explode('/', $path));
     }
 }

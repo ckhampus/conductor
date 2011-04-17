@@ -1,5 +1,26 @@
 <?php
-
+/**
+ * Copyright (c) 2011 Cristian Hampus
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+ 
 namespace Conductor;
 
 /**
@@ -10,9 +31,9 @@ namespace Conductor;
  */
 class Route
 {
-    private $method;
-    private $path;
-    private $callback;
+    private $_method;
+    private $_path;
+    private $_callback;
     
     /**
      * Create a new route object.
@@ -25,9 +46,9 @@ class Route
      */
     public function __construct($method, $path, $callback) 
     {
-        $this->method = strtoupper($method);
-        $this->path = $path;
-        $this->callback = $callback;
+        $this->_method = strtoupper($method);
+        $this->_path = $path;
+        $this->_callback = $callback;
     }
 
     /**
@@ -35,9 +56,9 @@ class Route
      * 
      * @return int
      */
-    private function hasParameters()
+    private function _hasParameters()
     {
-        return count($this->getParameterNames());
+        return count($this->_getParameterNames());
     }
 
     /**
@@ -45,11 +66,11 @@ class Route
      *
      * @return array
      */
-    private function getParameterNames()
+    private function _getParameterNames()
     {
         $matches = array();
         $regexp = '/:[a-zA-Z_][a-zA-Z0-9_]*/';
-        preg_match_all($regexp, $this->path, $matches);
+        preg_match_all($regexp, $this->_path, $matches);
 
         return $matches[0];
     }
@@ -63,7 +84,7 @@ class Route
      */
     public function matchRoute($path)
     {
-        return (bool)preg_match('/^'.$this->getPathWithData().'$/', $path);
+        return (bool)preg_match('/^'.$this->_getPathWithData().'$/', $path);
     }
 
     /**
@@ -73,7 +94,7 @@ class Route
      */
     public function getMethod()
     {
-        return $this->method;
+        return $this->_method;
     }
 
     /**
@@ -83,12 +104,12 @@ class Route
      *
      * @return string
      */
-    public function getPath(Array $data = array())
+    public function getPath(array $data = array())
     {
         if (empty($data)) {
-            return $this->path;
+            return $this->_path;
         } else {
-            return $this->getPathWithData($data);
+            return $this->_getPathWithData($data);
         }
     }
 
@@ -99,7 +120,7 @@ class Route
      */
     public function getCallback()
     {
-        return $this->callback;
+        return $this->_callback;
     }
 
     /**
@@ -109,31 +130,31 @@ class Route
      *
      * @return string
      */
-    private function getPathWithData(Array $data = array())
+    private function _getPathWithData(array $data = array())
     {
         if (empty($data)) {
             // If data array is empty replace
             // parameters in path with regular expression
-            $path = str_replace('/', '\/', $this->path);
-            $data = array_fill_keys($this->getParameterNames(), '[\w]+');
+            $path = str_replace('/', '\/', $this->_path);
+            $data = array_fill_keys($this->_getParameterNames(), '[\w]+');
         } else {
             // If data array is not empty replace
             // parameters with data from array.
             
             // Check if the expected number of
             // parameters in the data array is right.
-            if ($this->hasParameters() > count($data)) {
+            if ($this->_hasParameters() > count($data)) {
                 throw new \InvalidArgumentException(
                     sprintf(
                         'Expecting %s parameter%s.',    // Error message
-                        $this->hasParameters(),         // Number of parameters
-                        (($this->hasParameters() === 1) ? '' : 's') // Plural?
+                        $this->_hasParameters(),         // Number of parameters
+                        (($this->_hasParameters() === 1) ? '' : 's') // Plural?
                     )
                 );
             }
             
-            $path = $this->path;
-            $data = array_combine($this->getParameterNames(), $data);
+            $path = $this->_path;
+            $data = array_combine($this->_getParameterNames(), $data);
         }
 
         foreach ($data as $key => $value) {

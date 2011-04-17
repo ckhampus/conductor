@@ -87,7 +87,7 @@ class Router
                 if ($route->matchRoute($this->_requested_path)) {
                     call_user_func_array(
                         $route->getCallback(),
-                        $this->getParameters($route->getPath())
+                        $this->_getParameters($route->getPath())
                     );
                 
                     return true;

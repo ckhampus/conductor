@@ -30,4 +30,17 @@ class RequestTest extends PHPUnit_Framework_TestCase
          $this->assertFalse($r->addHeaders($h2));
      }
 
+     public function testAddingPostFields()
+     {
+         $r = new Request();
+
+         $p1 = array('hello' => 'world');
+
+         $this->assertTrue($r->addPostFields($p1));
+
+         $p2 = array('random_value');
+
+         $this->assertFalse($r->addPostFields($p2));
+     }
+
 }

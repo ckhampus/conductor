@@ -22,7 +22,7 @@ class RouteCollectionTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($r2, $rc->getRouteByName('fancy_route'));
     }
 
-    public function testRouteTraversal()
+    public function testRouteCollectionIterator()
     {
         $rc = new RouteCollection();
 

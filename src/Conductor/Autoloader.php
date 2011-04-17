@@ -7,7 +7,7 @@ namespace Conductor;
  * 
  * @author Cristian Hampus
  **/
-class ClassLoader 
+class Autoloader 
 {
     /**
      * Register the class loader.
@@ -16,7 +16,9 @@ class ClassLoader
      */
     public static function register() 
     {
-        spl_autoload_register(array(__CLASS__, 'autoload'));
+        $loader = new Autoloader;
+        
+        spl_autoload_register(array($loader, 'autoload'));
     }
 
     /**
@@ -25,7 +27,7 @@ class ClassLoader
      * @param string $class
      * @return bool
      */
-    private static function autoload($class)
+    private function autoload($class)
     {
         // Check if class or interface has been loaded allready
         if (class_exists($class, false) || interface_exists($class, false)) {

@@ -38,6 +38,7 @@ class Response
 {
     private $_headers = array();
     private $_cookies = array();
+    private $_charset = 'utf-8';
     
     function __construct()
     {
@@ -128,12 +129,12 @@ class Response
 
     public function getCharset()
     {
-        return 
+        return $this->_charset;
     }
 
     public function setCharset($charset)
     {
-        $this->charset = $charset;
+        $this->_charset = $charset;
     }
 
     public function getContentType()

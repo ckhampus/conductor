@@ -96,11 +96,35 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array_merge($headers1, $headers2), $res->getHeaders());
         
         $headers3 = array(
-            'Content-Encoding' => 'gzip!'    
+            'Content-Encoding' => 'gzip'    
         );
         
         $this->assertTrue($res->setHeaders($headers3));
         $this->assertEquals(1, count($res->getHeaders()));
         $this->assertEquals($headers3, $res->getHeaders());        
+    }
+
+    public function testSettingAndGettingContentType()
+    {
+        $res = new Response();
+
+        $this->assertEquals(null, $res->getContentType());
+
+        $res->setContentType('text/html');
+
+        $this->assertEquals('text/html', $res->getContentType());
+    }
+
+    public function testSettingAttachment()
+    {
+        $res = new Response();
+
+        $res->setAttachment();
+
+        $this->assertEquals('attachment', $res->getHeader('Content-Disposition'));
+
+        $res->setAttachment('awesome_file.pdf');
+
+        $this->assertEquals('attachment; filename=awesome_file.pdf', $res->getHeader('Content-Disposition'));
     }
 }

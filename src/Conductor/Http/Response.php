@@ -41,6 +41,7 @@ class Response
     private $_headers = array();
     private $_cookies = array();
     private $_charset = 'utf-8';
+    private $_content = null;
     
     function __construct()
     {
@@ -141,15 +142,15 @@ class Response
 
     public function getContentType()
     {
-        // code...  
+        return $this->getHeader('Content-Type');
     }
 
     public function setContentType($type)
     {
-        // code...  
+        $this->setHeader('Content-Type', $type);
     }
 
-    public function setAttachement($filename = null)
+    public function setAttachment($filename = null)
     {
         $this->_headers['Content-Disposition'] = 'attachment';
         
@@ -160,7 +161,7 @@ class Response
 
     public function setFile($file)
     {
-        // code...  
+        $this->_content = file_get_contents($file);
     }
 
     public function setStatusCode($status)
@@ -168,13 +169,17 @@ class Response
         // code...  
     }
 
-    public function send()
+    public function send($content = null)
     {
-        // code...
+        foreach ($this->_headers as $key => $value) {
+            header(sprintf('%s: %s', $key, $value));
+        }
+
+        echo $this->_content;
     }
 
     public function redirect($url, $status = 302)
     {
-        // code...  
+        $this->addHeader('Location', $url);
     }
 }

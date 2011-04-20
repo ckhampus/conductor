@@ -1,34 +1,78 @@
 <?php
-
+/**
+ * Copyright (c) 2011 Cristian Hampus
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+ 
 namespace Conductor\Http;
+
+function is_assoc_array(array $arr) {
+    foreach ($arr as $key => $value) {
+        if (!is_string($key)) {
+            return false;   
+        }
+    }
+}
 
 /**
  * Response
  **/
 class Response
 {
-
     private $_headers = array();
     private $_cookies = array();
     
-    function __construct(argument)
+    function __construct()
     {
         // code...
+    }
+    
+    public function getCookies() {
+        return $this->_cookies;   
     }
 
     public function addCookies(array $cookies)
     {
-        // code...  
+        if (is_assoc_array($cookies)) {
+            return false;   
+        }
+        
+        $this->_cookies = array_merge($this->_cookies, $cookies);
+        
+        return true;
     }
 
     public function setCookies(array $cookies)
     {
-        // code...
+        if (is_assoc_array($cookies)) {
+            return false;   
+        }
+        
+        $this->_cookies = $cookies;
+        
+        return true;
     }
 
     public function getHeaders()
     {
-        // code...  
+        return $this->_headers;
     }
 
     /**
@@ -40,7 +84,13 @@ class Response
      */
     public function addHeaders(array $headers)
     {
-        // code...  
+        if (is_assoc_array($headers)) {
+            return false;   
+        }
+        
+        $this->_headers = array_merge($this->_headers, $headers);
+        
+        return true; 
     }
 
     /**
@@ -52,32 +102,38 @@ class Response
      */
     public function setHeaders(array $headers)
     {
-        // code...  
+        if (is_assoc_array($headers)) {
+            return false;   
+        }
+        
+        $this->_headers = $headers);
+        
+        return true; 
     }
 
-    public function addHeader($field, $value)
+    public function addHeader($name, $value)
     {
-        // code...  
+        $this->addHeaders(array((string)$name => $value));
     }
 
     public function setHeader($name, $value)
     {
-        // code...  
+        $this->setHeaders(array((string)$name => $value));
     }
 
-    public function getHeader($name, $value)
+    public function getHeader($name)
     {
-        // code...  
+        return isset($this->_headers[$name]) ? $this->_headers[$name] : null;
     }
 
     public function getCharset()
     {
-        // code...  
+        return 
     }
 
     public function setCharset($charset)
     {
-        // code...  
+        $this->charset = $charset;
     }
 
     public function getContentType()

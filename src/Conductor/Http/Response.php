@@ -29,6 +29,8 @@ function is_assoc_array(array $arr) {
             return false;   
         }
     }
+    
+    return true;
 }
 
 /**

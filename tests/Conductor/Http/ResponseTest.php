@@ -2,7 +2,7 @@
 
 use Conductor\Http\Response;
 
-class ResponseTest extends PHPUnit_Framework_TestCase
+class ResponseTest extends PHPUnit_Extensions_OutputTestCase
 {
     public function testAddingCookies()
     {
@@ -115,6 +115,17 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('text/html', $res->getContentType());
     }
 
+    public function testSettingAndGettingCharset()
+    {
+        $res = new Response();
+
+        $this->assertEquals('utf-8', $res->getCharset());
+        
+        $res->setCharset('ISO-8859-1');
+
+        $this->assertEquals('ISO-8859-1', $res->getCharset());
+    }
+
     public function testSettingAttachment()
     {
         $res = new Response();
@@ -126,5 +137,27 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $res->setAttachment('awesome_file.pdf');
 
         $this->assertEquals('attachment; filename=awesome_file.pdf', $res->getHeader('Content-Disposition'));
+    }
+
+    public function testSettingFile()
+    {
+        $res = new Response();
+
+        $this->assertTrue($res->setFile(__DIR__.'/../../file.txt'));
+        $this->assertEquals('text/plain', $res->getContentType());
+    }
+
+    public function testSendingResponse()
+    {
+        $res = new Response();
+        
+        $this->assertTrue($res->setFile(__DIR__.'/../../file.txt'));
+        $this->assertEquals('text/plain', $res->getContentType());
+
+        $this->expectOutputString("Hello, World!\n", $res->send());
+
+        $sent_headers = headers_list();
+
+
     }
 }

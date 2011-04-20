@@ -115,14 +115,9 @@ class Response
         return true; 
     }
 
-    public function addHeader($name, $value)
-    {
-        $this->addHeaders(array((string)$name => $value));
-    }
-
     public function setHeader($name, $value)
     {
-        $this->setHeaders(array((string)$name => $value));
+        $this->addHeaders(array((string)$name => $value));
     }
 
     public function getHeader($name)
@@ -161,7 +156,12 @@ class Response
 
     public function setFile($file)
     {
+        $fileinfo = finfo_open(FILEINFO_MIME_TYPE);
+        $this->setContentType(finfo_file($fileinfo, $file));
+
         $this->_content = file_get_contents($file);
+
+        return (bool)$this->_content;
     }
 
     public function setStatusCode($status)
@@ -180,6 +180,6 @@ class Response
 
     public function redirect($url, $status = 302)
     {
-        $this->addHeader('Location', $url);
+        $this->setHeader('Location', $url);
     }
 }

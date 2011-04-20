@@ -53,4 +53,54 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($res->getCookies()));
         $this->assertEquals($cookies3, $res->getCookies());        
     }
+    
+    public function testAddingHeaders()
+    {
+        $res = new Response();
+
+        $headers1 = array('Content-Type' => 'text/html');
+        $headers2 = array('text/html');
+
+        $this->assertTrue($res->addHeaders($headers1));
+        $this->assertFalse($res->addHeaders($headers2));
+    }
+
+    public function testSettingHeaders()
+    {
+        $res = new Response();
+        
+        $headers1 = array('Content-Type' => 'text/html');
+        $headers2 = array('text/html');
+
+        $this->assertTrue($res->setHeaders($headers1));
+        $this->assertFalse($res->setHeaders($headers2));
+    }
+
+    public function testGettingHeaders()
+    {
+        $res = new Response();
+        
+        $headers1 = array(
+            'Content-Type' => 'text/html',
+            'Content-Length' => '1337'
+        );
+
+        $this->assertTrue($res->addHeaders($headers1));
+        $this->assertEquals(2, count($res->getHeaders()));
+        
+        $headers2 = array('Proxy-Authenticate' => 'Basic');
+        
+        $this->assertTrue($res->addHeaders($headers2));
+        $this->assertEquals(3, count($res->getHeaders()));
+        
+        $this->assertEquals(array_merge($headers1, $headers2), $res->getHeaders());
+        
+        $headers3 = array(
+            'Content-Encoding' => 'gzip!'    
+        );
+        
+        $this->assertTrue($res->setHeaders($headers3));
+        $this->assertEquals(1, count($res->getHeaders()));
+        $this->assertEquals($headers3, $res->getHeaders());        
+    }
 }

@@ -51,7 +51,7 @@ class Response
 
     public function addCookies(array $cookies)
     {
-        if (is_assoc_array($cookies)) {
+        if (!is_assoc_array($cookies)) {
             return false;   
         }
         
@@ -62,7 +62,7 @@ class Response
 
     public function setCookies(array $cookies)
     {
-        if (is_assoc_array($cookies)) {
+        if (!is_assoc_array($cookies)) {
             return false;   
         }
         
@@ -85,7 +85,7 @@ class Response
      */
     public function addHeaders(array $headers)
     {
-        if (is_assoc_array($headers)) {
+        if (!is_assoc_array($headers)) {
             return false;   
         }
         
@@ -103,7 +103,7 @@ class Response
      */
     public function setHeaders(array $headers)
     {
-        if (is_assoc_array($headers)) {
+        if (!is_assoc_array($headers)) {
             return false;   
         }
         

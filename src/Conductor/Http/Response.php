@@ -106,7 +106,7 @@ class Response
             return false;   
         }
         
-        $this->_headers = $headers);
+        $this->_headers = $headers;
         
         return true; 
     }

@@ -36,12 +36,12 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertTrue($res->addCookies($cookies1));
-        $this->assertEquals(2, count($this->getCookies()));
+        $this->assertEquals(2, count($res->getCookies()));
         
         $cookies2 = array('cookie_the_third' => 'the third value');
         
         $this->assertTrue($res->addCookies($cookies2));
-        $this->assertEquals(3, count($this->getCookies()));
+        $this->assertEquals(3, count($res->getCookies()));
         
         $this->assertEquals(array_merge($cookie1, $cookie2), $res->getCookies());
         

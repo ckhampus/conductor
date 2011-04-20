@@ -154,10 +154,16 @@ class ResponseTest extends PHPUnit_Extensions_OutputTestCase
         $this->assertTrue($res->setFile(__DIR__.'/../../file.txt'));
         $this->assertEquals('text/plain', $res->getContentType());
 
-        $this->expectOutputString("Hello, World!\n", $res->send());
+        $this->expectOutputString("Hello, World!\n");
+        $res->send();
+    }
 
-        $sent_headers = headers_list();
+    public function testSettingRedirect()
+    {
+        $res = new Response();
 
+        $res->redirect('/path');
 
+        $this->assertEquals('/path', $res->getHeader('Location'));
     }
 }

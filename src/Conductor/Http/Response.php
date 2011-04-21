@@ -42,6 +42,7 @@ class Response
     private $_cookies = array();
     private $_charset = 'utf-8';
     private $_content = null;
+    private $_status  = null;
     
     function __construct()
     {
@@ -166,7 +167,7 @@ class Response
 
     public function setStatusCode($status)
     {
-        // code...  
+        $this->_status = $status;
     }
 
     public function send($content = null)
@@ -175,11 +176,17 @@ class Response
             header(sprintf('%s: %s', $key, $value));
         }
 
+        if (!is_null($this->_status)) {
+            header(sprintf('HTTP/1.1 %s', $this->_status));
+        }
+
         echo $this->_content;
     }
 
     public function redirect($url, $status = 302)
     {
+        $this->setStatusCode($status);
         $this->setHeader('Location', $url);
+        $this->send();
     }
 }

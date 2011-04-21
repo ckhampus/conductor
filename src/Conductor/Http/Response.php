@@ -34,8 +34,11 @@ function is_assoc_array(array $arr) {
 }
 
 /**
- * Response
- **/
+ * Response 
+ * 
+ * @package Conductor
+ * @author  Cristian Hampus <contact@cristianhampus.se>
+ */
 class Response
 {
     private $_headers = array();
@@ -49,10 +52,22 @@ class Response
         // code...
     }
     
+    /**
+     * Get previously set cookies.
+     * 
+     * @return array
+     */
     public function getCookies() {
         return $this->_cookies;   
     }
 
+    /**
+     * Add cookies to response.
+     * 
+     * @param array $cookies Associative array containing cookie name/value pairs to add.
+     *
+     * @return bool
+     */
     public function addCookies(array $cookies)
     {
         if (!is_assoc_array($cookies)) {
@@ -64,6 +79,13 @@ class Response
         return true;
     }
 
+    /**
+     * Set cookies 
+     * 
+     * @param array $cookies Associative array containing cookie name/value pairs to add.
+     *
+     * @return bool
+     */
     public function setCookies(array $cookies)
     {
         if (!is_assoc_array($cookies)) {
@@ -75,6 +97,11 @@ class Response
         return true;
     }
 
+    /**
+     * Get previously set headers. 
+     * 
+     * @return array
+     */
     public function getHeaders()
     {
         return $this->_headers;
@@ -116,36 +143,82 @@ class Response
         return true; 
     }
 
+    /**
+     * Set header field.
+     * 
+     * @param string $name  Name of the header field.
+     * @param mixed  $value The value to set.
+     *
+     * @return void
+     */
     public function setHeader($name, $value)
     {
         $this->addHeaders(array((string)$name => $value));
     }
 
+    /**
+     * Get header field. 
+     * 
+     * @param string $name Name of the header field.
+     *
+     * @return void
+     */
     public function getHeader($name)
     {
         return isset($this->_headers[$name]) ? $this->_headers[$name] : null;
     }
 
+    /**
+     * Get currently set charset. 
+     * 
+     * @return string
+     */
     public function getCharset()
     {
         return $this->_charset;
     }
 
+    /**
+     * Set the charset.  
+     * 
+     * @param string $charset The charset to set.
+     *
+     * @return void
+     */
     public function setCharset($charset)
     {
         $this->_charset = $charset;
     }
 
+    /**
+     * Get the content type. 
+     * 
+     * @return string
+     */
     public function getContentType()
     {
         return $this->getHeader('Content-Type');
     }
 
+    /**
+     * Set content type. 
+     * 
+     * @param string $type The content type.
+     *
+     * @return void
+     */
     public function setContentType($type)
     {
         $this->setHeader('Content-Type', $type);
     }
 
+    /**
+     * Specify an attachment. 
+     * 
+     * @param string $filename Optionally set the filename for the attachment. 
+     *
+     * @return void
+     */
     public function setAttachment($filename = null)
     {
         $this->_headers['Content-Disposition'] = 'attachment';
@@ -155,21 +228,46 @@ class Response
         }
     }
 
-    public function setFile($file)
-    {
-        $fileinfo = finfo_open(FILEINFO_MIME_TYPE);
-        $this->setContentType(finfo_file($fileinfo, $file));
-
-        $this->_content = file_get_contents($file);
-
-        return (bool)$this->_content;
-    }
-
+    /**
+     * Set status code for the response. 
+     * 
+     * @param int $status The HTTP status code.
+     *
+     * @return void
+     */
     public function setStatusCode($status)
     {
         $this->_status = $status;
     }
 
+    /**
+     * Set a file to be downloaded. 
+     * 
+     * @param mixed $file Path to the file to be downloaded.
+     *
+     * @return bool
+     */
+    public function download($file)
+    {
+        $fileinfo = finfo_open(FILEINFO_MIME_TYPE);
+        $this->setContentType(finfo_file($fileinfo, $file));
+
+        $this->_content = file_get_contents($file);
+        
+        if ((bool)$this->_content) {
+            $this->send();
+        }
+
+        return (bool)$this->_content;
+    }
+
+    /**
+     * Send the response. 
+     * 
+     * @param string $content The body to send in the request.
+     *
+     * @return void
+     */
     public function send($content = null)
     {
         foreach ($this->_headers as $key => $value) {
@@ -183,6 +281,14 @@ class Response
         echo $this->_content;
     }
 
+    /**
+     * Redirect to url. 
+     * 
+     * @param string $url    Url to redirect to.
+     * @param int    $status The status code to send.
+     *
+     * @return void
+     */
     public function redirect($url, $status = 302)
     {
         $this->setStatusCode($status);

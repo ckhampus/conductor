@@ -143,7 +143,7 @@ class ResponseTest extends PHPUnit_Extensions_OutputTestCase
     {
         $res = new Response();
 
-        $this->assertTrue($res->setFile(__DIR__.'/../../file.txt'));
+        $this->assertTrue($res->download(__DIR__.'/../../file.txt'));
         $this->assertEquals('text/plain', $res->getContentType());
     }
 
@@ -151,11 +151,10 @@ class ResponseTest extends PHPUnit_Extensions_OutputTestCase
     {
         $res = new Response();
         
-        $this->assertTrue($res->setFile(__DIR__.'/../../file.txt'));
+        $this->expectOutputString("Hello, World!\n");
+        $this->assertTrue($res->download(__DIR__.'/../../file.txt'));
         $this->assertEquals('text/plain', $res->getContentType());
 
-        $this->expectOutputString("Hello, World!\n");
-        $res->send();
     }
 
     public function testSettingRedirect()
